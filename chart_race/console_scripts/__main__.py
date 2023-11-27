@@ -24,6 +24,7 @@ def main():
     entities = []
     with open(args.entities_file, newline='') as csvfile:
         reader = csv.DictReader(csvfile, fieldnames=['key', 'label', 'image_path'])
+        next(reader, None)
         for row in reader:
             entity = Entity(row['key'], row['label'], row['image_path'])
             entities.append(entity)
@@ -31,8 +32,9 @@ def main():
     entries = []
     with open(args.entries_files, newline='') as csvfile:
         reader = csv.DictReader(csvfile, fieldnames=['entity_key', 'timestamp'])
+        next(reader, None)
         for row in reader:
-            entry = Entry(row['entity_key'], row['timestamp'])
+            entry = Entry(row['entity_key'], int(row['timestamp']))
             entries.append(entry)
     
     create_chart_race_video(entities, entries, args.output_file, args.title,
